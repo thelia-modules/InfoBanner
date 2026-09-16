@@ -1,6 +1,6 @@
 {
   "name": "thelia/info-banner-module",
-  "description": "InfoBanner module for Thelia",
+  "description": "A single line of text across the top of the Thelia front office, edited from the module configuration screen.",
   "license": "LGPL-3.0-or-later",
   "type": "thelia-module",
   "require": {

@@ -5,22 +5,17 @@
     <fullnamespace>InfoBanner\InfoBanner</fullnamespace>
     <descriptive locale="en_US">
         <title>Information Banner</title>
-        <!--
-        <subtitle></subtitle>
-        <description></description>
-        <postscriptum></postscriptum>
-        -->
+        <description>A single line of text across the top of the front office, edited from the module configuration screen.</description>
     </descriptive>
     <descriptive locale="fr_FR">
         <title>Bandeau d'information</title>
+        <description>Une ligne de texte en haut du front office, saisie depuis l'écran de configuration du module.</description>
     </descriptive>
-    <!-- <logo></logo> -->
-    <!--<images-folder>images</images-folder>-->
     <languages>
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <authors>
         <author>
             <name>Loïc MO</name>
@@ -28,16 +23,8 @@
         </author>
     </authors>
     <type>classic</type>
-    <!--
-    module dependencies
-    <required>
-        <module version="&gt;=0.1">Front</module>
-        <module version="~1.0">HookCart</module>
-        <module version="&gt;0.2">HookSearch</module>
-    </required>
-    -->
-    <thelia>2.5.0</thelia>
-    <stability>other</stability>
+    <thelia>3.0.0</thelia>
+    <stability>prod</stability>
     <mandatory>0</mandatory>
     <hidden>0</hidden>
 </module>

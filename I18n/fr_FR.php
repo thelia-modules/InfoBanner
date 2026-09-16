@@ -11,5 +11,13 @@
  */
 
 return [
-    // 'an english string' => 'La traduction française de la chaine',
+    'Free delivery from €50 with the code LIVRAISON' => 'Livraison offerte dès 50 € avec le code LIVRAISON',
+    'Banner saved.' => 'Bandeau enregistré.',
+    'Banner removed: nothing is shown any more.' => 'Bandeau retiré : plus rien n\'est affiché.',
+    'The banner could not be saved.' => 'Le bandeau n\'a pas pu être enregistré.',
+    'Banner configuration' => 'Configuration du bandeau',
+    'Banner text' => 'Texte du bandeau',
+    'Information banner' => 'Bandeau d\'information',
+    'Save' => 'Enregistrer',
+    'Shown across the top of every front-office page. Leave it empty to draw no banner at all.' => 'Affiché en haut de chaque page du front office. Laissez le champ vide pour ne rien afficher.',
 ];

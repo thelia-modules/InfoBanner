@@ -1,0 +1,38 @@
+{# InfoBanner configuration, drawn on the module.configuration hook of the default-twig back office.
+
+   The strings live in the module's own domain (I18n/*.php), not in a `<module>.bo.<template>` one:
+   that domain is keyed on the name of the back-office template directory, so moving or renaming
+   that directory silently drops every translation. #}
+
+{# The back-office form theme is not global — the one global theme is the front office's — so every
+   back-office form opts in, the way the 43 templates of the theme itself do. Without it the field
+   comes out as a bare input with no Bootstrap class in a Bootstrap page. #}
+{% if bo_form_themes is defined %}
+    {% form_theme form with bo_form_themes only %}
+{% endif %}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <h3 class="card-title mb-0">{{ 'Information banner'|trans({}, 'infobanner') }}</h3>
+    </div>
+    <div class="card-body">
+        {{ form_start(form, {'action': path('infobanner.configuration.save'), 'method': 'POST'}) }}
+            {{ form_errors(form) }}
+
+            {# Thelia redirects on these two hidden fields. Both point back here: the outcome is
+               told by a flash on this page, the front office is not where an editor looks. #}
+            {{ form_widget(form.success_url, {'value': configuration_url}) }}
+            {{ form_widget(form.error_url, {'value': configuration_url}) }}
+
+            {# The band spans the page, so the field is given room rather than a narrow box: an
+               editor has to see the whole line to judge how it will read. #}
+            <div class="row">
+                <div class="col-xl-8">
+                    {{ form_row(form.title) }}
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">{{ 'Save'|trans({}, 'infobanner') }}</button>
+        {{ form_end(form) }}
+    </div>
+</div>
