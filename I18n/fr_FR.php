@@ -11,6 +11,7 @@
  */
 
 return [
+    'Free delivery from €50 with the code LIVRAISON' => 'Livraison offerte dès 50 € avec le code LIVRAISON',
     'Banner saved.' => 'Bandeau enregistré.',
     'Banner removed: nothing is shown any more.' => 'Bandeau retiré : plus rien n\'est affiché.',
     'The banner could not be saved.' => 'Le bandeau n\'a pas pu être enregistré.',

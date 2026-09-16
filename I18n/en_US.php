@@ -11,6 +11,7 @@
  */
 
 return [
+    'Free delivery from €50 with the code LIVRAISON' => 'Free delivery from €50 with the code LIVRAISON',
     'Banner saved.' => 'Banner saved.',
     'Banner removed: nothing is shown any more.' => 'Banner removed: nothing is shown any more.',
     'The banner could not be saved.' => 'The banner could not be saved.',

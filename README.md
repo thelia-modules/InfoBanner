@@ -76,3 +76,6 @@ text survives the upgrade. What changed:
 - saving an empty field now clears the banner instead of storing an empty row
 - saving returns to the module configuration page with a flash message instead of falling through
   to whatever `success_url` happened to hold
+- the screen opts into the back-office form theme (`{% form_theme form with bo_form_themes only %}`),
+  so the field is a Bootstrap `form-control` with its label, its optional marker, its inline help and
+  its invalid state, instead of a bare input in a Bootstrap page
