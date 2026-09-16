@@ -11,6 +11,9 @@
  */
 
 return [
+    'Banner saved.' => 'Banner saved.',
+    'Banner removed: nothing is shown any more.' => 'Banner removed: nothing is shown any more.',
+    'The banner could not be saved.' => 'The banner could not be saved.',
     'Banner configuration' => 'Banner configuration',
     'Banner text' => 'Banner text',
     'Information banner' => 'Information banner',

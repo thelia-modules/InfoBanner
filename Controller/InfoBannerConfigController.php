@@ -15,7 +15,8 @@ declare(strict_types=1);
 namespace InfoBanner\Controller;
 
 use InfoBanner\Form\Configuration;
-use InfoBanner\Model\Infobanner;
+use InfoBanner\InfoBanner;
+use InfoBanner\Model\Infobanner as BannerRow;
 use InfoBanner\Model\InfobannerQuery;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -34,37 +35,46 @@ class InfoBannerConfigController extends BaseAdminController
         }
 
         $form = $this->createForm(Configuration::getName());
+        $translator = Translator::getInstance();
 
         try {
             $title = trim((string) $this->validateForm($form)->get('title')->getData());
 
             // One row at most: the screen edits a single banner, so the write replaces it rather
-            // than piling up rows the front would have to choose between.
+            // than piling up rows the front would have to choose between. An empty field is not an
+            // empty row either — it is the banner being taken down.
             InfobannerQuery::create()->deleteAll();
 
             if ('' !== $title) {
-                (new Infobanner())->setTitle($title)->save();
+                (new BannerRow())->setTitle($title)->save();
             }
+
+            $this->addFlash('success', '' !== $title
+                ? $translator?->trans('Banner saved.', [], InfoBanner::DOMAIN_NAME)
+                : $translator?->trans('Banner removed: nothing is shown any more.', [], InfoBanner::DOMAIN_NAME));
         } catch (\Exception $exception) {
             $this->setupFormErrorContext(
-                Translator::getInstance()?->trans('Banner configuration'),
+                $translator?->trans('Banner configuration', [], InfoBanner::DOMAIN_NAME),
                 $exception->getMessage(),
                 $form,
                 $exception,
             );
 
-            return $this->generateErrorRedirect($form) ?? $this->redirectToConfiguration();
+            $this->addFlash('danger', $translator?->trans('The banner could not be saved.', [], InfoBanner::DOMAIN_NAME));
+
+            return $this->generateErrorRedirect($form) ?? $this->generateRedirect($this->configurationPath());
         }
 
-        return $this->generateSuccessRedirect($form) ?? $this->redirectToConfiguration();
+        return $this->generateSuccessRedirect($form) ?? $this->generateRedirect($this->configurationPath());
     }
 
     /**
-     * Where the screen goes when the form carries no success_url or error_url of its own —
-     * back to the module configuration, rather than a null response the kernel cannot serve.
+     * Where the screen goes once it has saved, whatever the outcome: the module's own
+     * configuration page, the one the form was drawn on. Built from the module code rather
+     * than written out, so renaming the module moves it too.
      */
-    private function redirectToConfiguration(): Response
+    private function configurationPath(): string
     {
-        return $this->generateRedirect('/admin/module/InfoBanner');
+        return '/admin/module/'.InfoBanner::getModuleCode();
     }
 }

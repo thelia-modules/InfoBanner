@@ -11,6 +11,11 @@
         {{ form_start(form, {'action': path('infobanner.configuration.save'), 'method': 'POST'}) }}
             {{ form_errors(form) }}
 
+            {# Thelia redirects on these two hidden fields. Both point back here: the outcome is
+               told by a flash on this page, the front office is not where an editor looks. #}
+            {{ form_widget(form.success_url, {'value': configuration_url}) }}
+            {{ form_widget(form.error_url, {'value': configuration_url}) }}
+
             <div class="mb-3 col-md-8">
                 {{ form_label(form.title) }}
                 {{ form_widget(form.title) }}

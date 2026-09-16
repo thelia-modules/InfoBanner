@@ -21,6 +21,15 @@ php Thelia module:activate InfoBanner
 *Modules > Information banner > Configure*: one field, the banner text. Saving an empty field
 removes the banner.
 
+Saving always comes back to that same configuration page — the form carries it in `success_url`
+and `error_url` — and says what happened there, as a flash message: the banner was saved, the
+banner was removed, or it could not be saved. An editor never lands on the front office to find
+out whether the save went through.
+
+A rejected save leaves the banner alone: the row is replaced only once the submitted text has
+passed validation, so a line over the column's 255 characters is refused without taking down the
+banner that was up.
+
 ## Rendering
 
 The module answers the `layout.body.top` theme hook — the first point a Flexy layout opens inside
@@ -65,3 +74,5 @@ text survives the upgrade. What changed:
   template they served was never rendered by anything — the module declared no front hook
 - `Config/routing.xml` is gone, the controller route is a `#[Route]` attribute
 - saving an empty field now clears the banner instead of storing an empty row
+- saving returns to the module configuration page with a flash message instead of falling through
+  to whatever `success_url` happened to hold

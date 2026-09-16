@@ -15,6 +15,7 @@ declare(strict_types=1);
 namespace InfoBanner\Hook\Back;
 
 use InfoBanner\Form\Configuration;
+use InfoBanner\InfoBanner;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Thelia\Core\Event\Hook\HookRenderEvent;
 use Thelia\Core\Form\FormServiceInterface;
@@ -52,6 +53,9 @@ final class ConfigHook extends BaseHook
 
         $event->add($this->render('InfoBanner/module-config.html.twig', [
             'form' => $form->createView(),
+            // Where the form posts back to. The screen is drawn by whoever renders
+            // module.configuration, so the page it lives on is not the template's to guess.
+            'configuration_url' => '/admin/module/'.InfoBanner::getModuleCode(),
         ]));
     }
 }

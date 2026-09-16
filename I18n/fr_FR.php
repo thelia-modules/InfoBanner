@@ -11,6 +11,9 @@
  */
 
 return [
+    'Banner saved.' => 'Bandeau enregistré.',
+    'Banner removed: nothing is shown any more.' => 'Bandeau retiré : plus rien n\'est affiché.',
+    'The banner could not be saved.' => 'Le bandeau n\'a pas pu être enregistré.',
     'Banner configuration' => 'Configuration du bandeau',
     'Banner text' => 'Texte du bandeau',
     'Information banner' => 'Bandeau d\'information',
