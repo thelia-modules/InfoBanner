@@ -17,24 +17,20 @@ namespace InfoBanner\Service;
 use InfoBanner\Model\InfobannerQuery;
 
 /**
- * The banner text, read once per request.
+ * The banner text.
  *
  * The table holds at most one row — the configuration screen empties it before writing — so
  * "no banner" and "an empty banner" are the same thing here, and both mean nothing is drawn.
+ *
+ * Nothing is kept between calls on purpose: the service is shared, and on a worker runtime
+ * (FrankenPHP, RoadRunner) a value cached in a property would outlive the request that read it,
+ * and the banner would go on showing the line an editor has already taken down. One hook point
+ * asks once per page, so there is nothing to spare anyway.
  */
-final class BannerReader
+final readonly class BannerReader
 {
-    private ?string $text = null;
-
-    private bool $read = false;
-
     public function text(): ?string
     {
-        if (!$this->read) {
-            $this->text = trim((string) InfobannerQuery::create()->findOne()?->getTitle()) ?: null;
-            $this->read = true;
-        }
-
-        return $this->text;
+        return trim((string) InfobannerQuery::create()->findOne()?->getTitle()) ?: null;
     }
 }
