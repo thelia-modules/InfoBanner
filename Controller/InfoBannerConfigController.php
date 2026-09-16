@@ -1,52 +1,70 @@
 <?php
 
+declare(strict_types=1);
+
+/*
+ * This file is part of the Thelia package.
+ * http://www.thelia.net
+ *
+ * (c) OpenStudio <info@thelia.net>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace InfoBanner\Controller;
 
 use InfoBanner\Form\Configuration;
+use InfoBanner\Model\Infobanner;
 use InfoBanner\Model\InfobannerQuery;
-use Propel\Runtime\Exception\PropelException;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 use Thelia\Controller\Admin\BaseAdminController;
-use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Translation\Translator;
 
 class InfoBannerConfigController extends BaseAdminController
 {
-    #[Route("/admin/module/InfoBanner/save", name:"infobanner.configuration.form", methods: ["POST"])]
-    public function saveAction(Session $session)
+    #[Route('/admin/module/InfoBanner/save', name: 'infobanner.configuration.save', methods: ['POST'])]
+    public function saveAction(): Response
     {
-        if (null !== $response = $this->checkAuth([AdminResources::MODULE], ["infobanner"], AccessManager::VIEW)) {
+        if (null !== $response = $this->checkAuth([AdminResources::MODULE], ['infobanner'], AccessManager::UPDATE)) {
             return $response;
         }
 
-        $form = $this->createForm(Configuration::class);
-        $response = null;
+        $form = $this->createForm(Configuration::getName());
 
         try {
+            $title = trim((string) $this->validateForm($form)->get('title')->getData());
+
+            // One row at most: the screen edits a single banner, so the write replaces it rather
+            // than piling up rows the front would have to choose between.
             InfobannerQuery::create()->deleteAll();
-        } catch (PropelException $e) {}
 
-        try {
-            $vform = $this->validateForm($form);
-            $data = $vform->getData();
-            $lang = $session->get('thelia.admin.edition.lang');
-
-            $infoBanner = new \InfoBanner\Model\Infobanner();
-            $infoBanner
-                ->setTitle($data['infoBannerId'])
-                ->save();
-
-        } catch (\Exception $e) {
+            if ('' !== $title) {
+                (new Infobanner())->setTitle($title)->save();
+            }
+        } catch (\Exception $exception) {
             $this->setupFormErrorContext(
-                Translator::getInstance()?->trans("Syntax error"),
-                $e->getMessage(),
+                Translator::getInstance()?->trans('Banner configuration'),
+                $exception->getMessage(),
                 $form,
-                $e
+                $exception,
             );
+
+            return $this->generateErrorRedirect($form) ?? $this->redirectToConfiguration();
         }
 
-        return $this->generateSuccessRedirect($form);
+        return $this->generateSuccessRedirect($form) ?? $this->redirectToConfiguration();
+    }
+
+    /**
+     * Where the screen goes when the form carries no success_url or error_url of its own —
+     * back to the module configuration, rather than a null response the kernel cannot serve.
+     */
+    private function redirectToConfiguration(): Response
+    {
+        return $this->generateRedirect('/admin/module/InfoBanner');
     }
 }

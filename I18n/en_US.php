@@ -11,5 +11,9 @@
  */
 
 return [
-    // 'an english string' => 'The displayed english string',
+    'Banner configuration' => 'Banner configuration',
+    'Banner text' => 'Banner text',
+    'Information banner' => 'Information banner',
+    'Save' => 'Save',
+    'Shown across the top of every front-office page. Leave it empty to draw no banner at all.' => 'Shown across the top of every front-office page. Leave it empty to draw no banner at all.',
 ];

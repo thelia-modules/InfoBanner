@@ -11,5 +11,9 @@
  */
 
 return [
-    // 'an english string' => 'La traduction française de la chaine',
+    'Banner configuration' => 'Configuration du bandeau',
+    'Banner text' => 'Texte du bandeau',
+    'Information banner' => 'Bandeau d\'information',
+    'Save' => 'Enregistrer',
+    'Shown across the top of every front-office page. Leave it empty to draw no banner at all.' => 'Affiché en haut de chaque page du front office. Laissez le champ vide pour ne rien afficher.',
 ];
